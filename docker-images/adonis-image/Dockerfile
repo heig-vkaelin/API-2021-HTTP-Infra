@@ -7,11 +7,11 @@ RUN mkdir /home/node/app
 
 WORKDIR /home/node/app
 
-COPY adonis-image/package.json adonis-image/package-lock.json /home/node/app/
+COPY src/package.json src/package-lock.json /home/node/app/
 
 RUN touch .env && npm ci
 
-COPY adonis-image/ /home/node/app/
+COPY src/ /home/node/app/
 
 RUN node ace build --production && cd build && npm ci --production
 

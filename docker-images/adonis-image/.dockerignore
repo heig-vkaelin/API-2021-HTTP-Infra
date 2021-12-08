@@ -1,5 +1,5 @@
-adonis-image/node_modules
-adonis-image/npm-debug.log
-adonis-image/.git
-adonis-image/.gitignore
-adonis-image/.env
+src/node_modules
+src/npm-debug.log
+src/.git
+src/.gitignore
+src/.env

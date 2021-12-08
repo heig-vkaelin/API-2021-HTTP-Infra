@@ -1,5 +1,6 @@
 {
-  "name": "adonis-image",
+  "name": "adonis-activities",
+  "author": "Lazar Pavicevic, Valentin Kaelin",
   "version": "1.0.0",
   "private": true,
   "scripts": {
