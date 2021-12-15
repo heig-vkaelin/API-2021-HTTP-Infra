@@ -9,12 +9,12 @@ Les fichiers de notre site statique doivent donc se trouver dans le chemin suiva
 
 Nous construisons l'image Docker avec la commande suivante:
 ```bash
-docker build -t api-2021-http-infra-step1 .
+docker build -t api/apache-php-image .
 ```
 Puis, nous pouvons lancer un container et y accèder via [localhost](http://localhost:9090) avec :
 
 ```bash
-docker run -p 9090:80 api-2021-http-infra-step1
+docker run -p 9090:80 api/apache-php-image
 ```
 
 ## Etape 2: Serveur HTTP dynamique avec Node.js
@@ -32,9 +32,9 @@ Le run stage, par soucis de sécurité, utilise l'utilisateur non-root `node` mi
 
 Nous construisons l'image Docker avec la commande suivante:
 ```bash
-docker build -t api-2021-http-infra-step2 .
+docker build -t api/adonis-image .
 ```
 Puis, nous pouvons lancer un container et y accèder via [localhost](http://localhost:3333) avec :
 
 ```bash
-docker run -p 3333:3333 api-2021-http-infra-step2
+docker run -p 3333:3333 api/adonis-image
