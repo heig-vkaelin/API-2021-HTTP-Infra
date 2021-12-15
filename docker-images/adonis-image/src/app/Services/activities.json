@@ -1,0 +1,272 @@
+[
+  {
+    "activity": "Play basketball with a group of friends",
+    "type": "social",
+    "participants": 5,
+    "price": 0,
+    "link": "",
+    "key": "8683473",
+    "accessibility": 0.7
+  },
+  {
+    "activity": "Plan a vacation you've always wanted to take",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "7265395",
+    "accessibility": 0.05
+  },
+  {
+    "activity": "Start a collection",
+    "type": "recreational",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "1718657",
+    "accessibility": 0.5
+  },
+  {
+    "activity": "Take a caffeine nap",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0.1,
+    "link": "",
+    "key": "5092652",
+    "accessibility": 0.08
+  },
+  {
+    "activity": "Learn the NATO phonetic alphabet",
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "link": "https://en.wikipedia.org/wiki/NATO_phonetic_alphabet",
+    "key": "6706598",
+    "accessibility": 0
+  },
+  {
+    "activity": "Write a poem",
+    "type": "recreational",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "8688620",
+    "accessibility": 0
+  },
+  {
+    "activity": "Learn how to french braid hair",
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "8926492",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Go for a walk",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "4286250",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Organize a cluttered drawer",
+    "type": "busywork",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "9714586",
+    "accessibility": 0
+  },
+  {
+    "activity": "Binge watch a trending series",
+    "type": "recreational",
+    "participants": 1,
+    "price": 0.2,
+    "link": "",
+    "key": "5881647",
+    "accessibility": 0.2
+  },
+  {
+    "activity": "Catch up on world news",
+    "type": "recreational",
+    "participants": 1,
+    "price": 0.05,
+    "link": "",
+    "key": "6596257",
+    "accessibility": 0.07
+  },
+  {
+    "activity": "Bake a pie with some friends",
+    "type": "cooking",
+    "participants": 3,
+    "price": 0.3,
+    "link": "",
+    "key": "3141592",
+    "accessibility": 0.3
+  },
+  {
+    "activity": "Learn Kotlin",
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "link": "https://kotlinlang.org/",
+    "key": "3950821",
+    "accessibility": 0.8
+  },
+  {
+    "activity": "Wash your car",
+    "type": "busywork",
+    "participants": 1,
+    "price": 0.05,
+    "link": "",
+    "key": "1017771",
+    "accessibility": 0.15
+  },
+  {
+    "activity": "Take a spontaneous road trip with some friends",
+    "type": "social",
+    "participants": 4,
+    "price": 0.2,
+    "link": "",
+    "key": "2085321",
+    "accessibility": 0.3
+  },
+  {
+    "activity": "Configure two-factor authentication on your accounts",
+    "type": "busywork",
+    "participants": 1,
+    "price": 0,
+    "link": "https://en.wikipedia.org/wiki/Multi-factor_authentication",
+    "key": "1572120",
+    "accessibility": 0
+  },
+  {
+    "activity": "Draw and color a Mandala",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0.05,
+    "link": "https://en.wikipedia.org/wiki/Mandala",
+    "key": "4614092",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Learn origami",
+    "type": "education",
+    "participants": 1,
+    "price": 0.2,
+    "link": "",
+    "key": "8394738",
+    "accessibility": 0.3
+  },
+  {
+    "activity": "Patronize a local independent restaurant",
+    "type": "recreational",
+    "participants": 1,
+    "price": 0.2,
+    "link": "",
+    "key": "5319204",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Go to the library and find an interesting book",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0.05,
+    "link": "",
+    "key": "8253550",
+    "accessibility": 0.2
+  },
+  {
+    "activity": "Find a charity and donate to it",
+    "type": "charity",
+    "participants": 1,
+    "price": 0.4,
+    "link": "",
+    "key": "1488053",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Do a jigsaw puzzle",
+    "type": "recreational",
+    "participants": 1,
+    "price": 0.1,
+    "link": "https://en.wikipedia.org/wiki/Jigsaw_puzzle",
+    "key": "8550768",
+    "accessibility": 1
+  },
+  {
+    "activity": "Have a photo session with some friends",
+    "type": "social",
+    "participants": 4,
+    "price": 0.05,
+    "link": "",
+    "key": "3305912",
+    "accessibility": 0.8
+  },
+  {
+    "activity": "Look at pictures and videos of cute animals",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "2565076",
+    "accessibility": 1
+  },
+  {
+    "activity": "Learn about a distributed version control system such as Git",
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "link": "https://en.wikipedia.org/wiki/Distributed_version_control",
+    "key": "9303608",
+    "accessibility": 0
+  },
+  {
+    "activity": "Learn how to whistle with your fingers",
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "2790297",
+    "accessibility": 0
+  },
+  {
+    "activity": "Write a thank you letter to an influential person in your life",
+    "type": "social",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "4101229",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Have a bonfire with your close friends",
+    "type": "social",
+    "participants": 4,
+    "price": 0.1,
+    "link": "",
+    "key": "8442249",
+    "accessibility": 0.1
+  },
+  {
+    "activity": "Visit your past teachers",
+    "type": "social",
+    "participants": 1,
+    "price": 0,
+    "link": "",
+    "key": "8238918",
+    "accessibility": 0.7
+  },
+  {
+    "activity": "Start a book you've never gotten around to reading",
+    "type": "relaxation",
+    "participants": 1,
+    "price": 0.1,
+    "link": "",
+    "key": "7114122",
+    "accessibility": 0.1
+  }
+]
