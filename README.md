@@ -19,7 +19,7 @@ docker run -p 9090:80 api-2021-http-infra-step1
 
 ## Etape 2: Serveur HTTP dynamique avec Node.js
 
-Pour cette étape, nous utilisons [AdonisJS](https://adonisjs.com/) en remplacement d'Express.js. Il s'agit d'un framework moderne, reprenant une architecture similaire à Laravel et offrant la possibilité de coder en Typescript.
+Pour cette étape, nous utilisons [AdonisJS](https://adonisjs.com/) en remplacement d'Express.js. Il s'agit d'un framework moderne, reprenant une architecture similaire à Laravel et offrant la possibilité de coder en Typescript. Comme cette étape ne demande pas énormément de fonctionnalités, nous utilisons une version slim du framework.
 
 // TODO Partie sur le JSON que l'app va fournir.
 
