@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  docker-apache-reverse-proxy:
+    container_name: docker-reverse-proxy
+    build:
+      context: ./
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - proxy_net
+  docker-adonis-activities:
+    container_name: docker-activities
+    build:
+      context: ../adonis-image/
+    restart: always
+    networks:
+      - proxy_net
+  docker-apache-php:
+    container_name: docker-static
+    build:
+      context: ../apache-php-image/
+    restart: always
+    networks:
+      - proxy_net
+networks:
+  proxy_net:
