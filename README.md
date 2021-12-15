@@ -21,7 +21,8 @@ docker run -p 9090:80 api-2021-http-infra-step1
 
 Pour cette étape, nous utilisons [AdonisJS](https://adonisjs.com/) en remplacement d'Express.js. Il s'agit d'un framework moderne, reprenant une architecture similaire à Laravel et offrant la possibilité de coder en Typescript. Comme cette étape ne demande pas énormément de fonctionnalités, nous utilisons une version slim du framework.
 
-// TODO Partie sur le JSON que l'app va fournir.
+Notre application met à disposition sur l'endpoint ``/`` une liste d'activités à réaliser en cas d'ennui. Nous avons peuplé un fichier ``activities.json`` contenant une trentaine d'activités grâce à l'API [boredapi.com](https://www.boredapi.com/).
+La liste d'activités retournée contient entre 1 et 10 activités aléatoires.
 
 Nous profitons des **multi-stage builds** proposés par Docker pour créer notre image Docker. Nous avons donc deux étapes principales, le *build stage* et le *run stage*. Chaque étape utilise l'image de base `node:16-alpine`.
 

@@ -15,7 +15,7 @@ class ActivitiesService {
     const nbActivites = Math.floor(Math.random() * maxNumber)
     const activities: Set<Activity> = new Set()
 
-    for (let i = 0; i < nbActivites; i++) {
+    for (let i = 0; i < Math.max(1, nbActivites); i++) {
       const randomIndex = Math.floor(Math.random() * allActivites.length)
       activities.add(allActivites[randomIndex])
     }
