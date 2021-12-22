@@ -102,14 +102,11 @@ docker compose down
 
 Nous avons modifié le site web utilisé dans la première étape en lui rajoutant un fichier `custom.js` qui contient la logique pour fetch périodiquement les données fournies par notre API d'activités.
 
-Plutôt que d'utiliser `Ajax`, nous privilégeons la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript.
+Plutôt que d'utiliser la version `Ajax` de jQuery, nous privilégeons la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript. Cela nous permet d'éviter de télécharger une librairie supplémentaire pour un simple call HTTP.
 
 Côté infrastructure, nous reprenons le fichier `docker-compose.yml` de l'étape précédente.
 
 Pour vérifier le bon fonctionnement des appels effectués par le site statique, nous n'avons qu'à nous rendre sur la [page d'accueil](http://localhost) et observer les changements périodiques.
 
-// TODO GIF de la page qui est refresh chaque 5 secondes.
-
-## Etape 5: Reverse proxy dynamique
-
-Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
+GIF du call ajax se faisant toutes les 3 secondes pour afficher une nouvelle activité:
+![ajax](figures/ajax.gif)
