@@ -18,6 +18,9 @@ COPY src/.env build/
 #Run stage
 FROM node:16-alpine as app
 
+RUN apt-get update && \
+  apt-get install -y vim
+
 USER node
 
 RUN mkdir /home/node/app
