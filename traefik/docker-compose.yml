@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:2.5
+    restart: always
+    ports:
+      - 80:80
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=api_net
+      - --entrypoints.web.address=:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.rule=Host(`dashboard.localhost`)
+      - traefik.http.routers.dashboard.service=api@internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - api_net
+  adonis-activities:
+    image: api/adonis-image
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.adonis-activities.rule=Host(`localhost`) && PathPrefix(`/api`)
+      - traefik.http.routers.adonis-activities.middlewares=adonis-activities-stripprefix
+      - traefik.http.middlewares.adonis-activities-stripprefix.stripprefix.prefixes=/api
+      - traefik.http.routers.adonis-activities.entrypoints=web
+    depends_on:
+      - traefik
+    networks:
+      - api_net
+  apache-php:
+    image: api/apache-php-image
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.apache-php.rule=Host(`localhost`)
+      - traefik.http.routers.apache-php.entrypoints=web
+    depends_on:
+      - traefik
+      - adonis-activities
+    networks:
+      - api_net
+networks:
+  api_net:

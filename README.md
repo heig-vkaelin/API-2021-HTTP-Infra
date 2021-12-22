@@ -114,3 +114,26 @@ GIF du call ajax se faisant toutes les 3 secondes pour afficher une nouvelle act
 ## Etape 5: Reverse proxy dynamique
 
 Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
+
+## Etapes optionnelles:
+
+TODO:
+Expliquer pourquoi on a enlevé le nom des containers dans le docker-compose.yml et configuration de traefik.
+
+Pour lancer plusieurs containers d'une image :
+```bash
+docker compose up --scale adonis-activities=4 --scale apache-php=4
+```
+
+TODO:
+
+Adonis:
+- Afficher le host dans le json de réponse ou dans le header
+- Gérer l'endpoint /activities (différences entre Apache et Traefik) et ajouter un catch all
+- Fournir des health checks
+
+Traefik:
+- Activer les sticky sessions
+- Setup un autre projet (dans un autre docker-compose) qu'on ajoute au network et à Traefik
+- Setup de Portainer
+- Tester tout le setup final
