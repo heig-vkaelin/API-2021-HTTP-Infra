@@ -14,12 +14,17 @@ services:
     container_name: docker-activities
     image: api/adonis-image
     restart: always
+    depends_on:
+      - apache-reverse-proxy
     networks:
       - proxy_net
   apache-php:
     container_name: docker-static
     image: api/apache-php-image
     restart: always
+    depends_on:
+      - apache-reverse-proxy
+      - adonis-activities
     networks:
       - proxy_net
 networks:
