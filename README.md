@@ -109,3 +109,7 @@ Côté infrastructure, nous reprenons le fichier `docker-compose.yml` de l'étap
 Pour vérifier le bon fonctionnement des appels effectués par le site statique, nous n'avons qu'à nous rendre sur la [page d'accueil](http://localhost) et observer les changements périodiques.
 
 // TODO GIF de la page qui est refresh chaque 5 secondes.
+
+## Etape 5: Reverse proxy dynamique
+
+Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
