@@ -1,0 +1,1 @@
+docker build -t api/apache-php-image .
