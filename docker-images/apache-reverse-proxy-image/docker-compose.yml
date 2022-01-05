@@ -12,6 +12,8 @@ services:
       - proxy_net
   adonis-activities:
     container_name: docker-activities
+    build:
+      context: ../adonis-image
     image: api/adonis-image
     restart: always
     depends_on:
@@ -20,6 +22,8 @@ services:
       - proxy_net
   apache-php:
     container_name: docker-static
+    build:
+      context: ../apache-php-image
     image: api/apache-php-image
     restart: always
     depends_on:
