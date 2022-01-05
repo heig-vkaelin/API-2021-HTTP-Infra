@@ -32,6 +32,12 @@ Le build stage transpile les fichiers Typescript en Javascript valide pour le ru
 
 Le run stage, par soucis de sécurité, utilise l'utilisateur non-root `node` mis à disposition par l'image de base.
 
+Avant de construire l'image Docker, il est nécessaire de configurer les variables d'environnement de l'application Node.js. Cela se fait en copiant le fichier `.env.example` du dossier `src` en un fichier `.env`:
+
+```bash
+cp .env.example .env
+```
+
 Nous construisons l'image Docker avec la commande suivante:
 
 ```bash
