@@ -123,10 +123,15 @@ Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utilis
 
 ## Etapes optionnelles:
 
+Nous avons ajouté un middleware s'exécutant à chaque requête de notre API Node.js qui ajoute un header à la réponse `docker_hostname`. Cet header contient le nom du container afin de vérifier que les réponses viennent de containers différents.
+
+De plus, nous avons ajouté un endpoint `/health` sur l'API permettant de vérifier rapidement si l'application tourne correctement.
+
 TODO:
 Expliquer pourquoi on a enlevé le nom des containers dans le docker-compose.yml et configuration de traefik.
 
 Pour lancer plusieurs containers d'une image :
+
 ```bash
 docker compose up --scale adonis-activities=4 --scale apache-php=4
 ```
@@ -134,11 +139,13 @@ docker compose up --scale adonis-activities=4 --scale apache-php=4
 TODO:
 
 Adonis:
+
 - Afficher le host dans le json de réponse ou dans le header
 - Gérer l'endpoint /activities (différences entre Apache et Traefik) et ajouter un catch all
 - Fournir des health checks
 
 Traefik:
+
 - Activer les sticky sessions
 - Setup un autre projet (dans un autre docker-compose) qu'on ajoute au network et à Traefik
 - Setup de Portainer
