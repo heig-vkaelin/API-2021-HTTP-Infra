@@ -203,6 +203,9 @@ Il est possible d'observer que les requêtes du client à l'api Node.js sont bie
 
 TODO: expliquer la ligne en plus dans le fichier yml
 
+![sticky sessions](figures/sticky_sessions.gif)
+Nous observons bien sur la vidéo que lorsque le cookie de session est présent, la requête est toujours traitée par le même container. Une fois ce cookie supprimé, Traefik nous assigne un container parmi ceux disponibles.
+
 ### UI de Management
 
 -> Portainer
