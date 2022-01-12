@@ -59,6 +59,7 @@ services:
       - traefik.http.routers.apache-php.rule=Host(`localhost`)
       - traefik.http.routers.apache-php.entrypoints=web
       - traefik.http.services.apache-php.loadbalancer.sticky.cookie=true
+      - traefik.http.services.apache-php.loadbalancer.sticky.cookie.name=sticky-cookie
     depends_on:
       - traefik
       - adonis-activities

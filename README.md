@@ -123,24 +123,87 @@ Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utilis
 
 ## Etapes optionnelles:
 
-### Load balancing: multiple server nodes
+Pour cette partie, nous utilisons Traefik comme Reverse-Proxy afin de profiter de ses fonctionnalités avancées de routage sur les containers. Nous avons créé un dossier `traefik` dans lequel se trouve le `docker-compose.yml` qui implémente toutes les fonctionnalités demandées.
 
-Nous avons ajouté un middleware s'exécutant à chaque requête de notre API Node.js qui ajoute un header à la réponse `docker_hostname`. Cet header contient le nom du container afin de vérifier que les réponses viennent de containers différents.
+Le fichier docker-compose comporte 4 services : le Reverse-Proxy Traefik, Portainer qui sert d'interface de gestion des containers et les deux services développés aux étapes précédentes qui représentent le site web.
 
+La configuation de Traefik est la suivante:
+
+```yml
+ traefik:
+    container_name: traefik
+    image: traefik:2.5
+    restart: always
+    ports:
+      - 80:80
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      # Force à spécifier les services qui peuvent être exposés à Traefik
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=api_net
+      # Crée un entrypoint http nommé "web" utilisé par tous les services qui le spécifie
+      - --entrypoints.web.address=:80
+    labels:
+      - traefik.enable=true
+      # Dashboard accessible depuis http://dashboard.localhost
+      - traefik.http.routers.dashboard.rule=Host(`dashboard.localhost`)
+      - traefik.http.routers.dashboard.service=api@internal
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - api_net
+```
+
+Les autres services suivent le pattern suivant (avec plus ou moins de différences en fonction des besoins):
+
+```yml
+    mon-service:
+    image: mon-image
+    labels:
+      # Permet d'exposer le container à traefik et donc d'effectuer le routage
+      - traefik.enable=true
+      - traefik.http.routers.mon-service.rule=Host(`localhost`)
+      - traefik.http.routers.mon-service.entrypoints=web
+      # Avec les deux lignes du dessus, le service est atteignable en http://localhost
+    depends_on:
+      - traefik
+    networks:
+      - mon-network
+```
+
+Il est important de noter que pour implémenter le scaling des services, il **ne faut pas** spécifier un `container_name` pour chaque service. En effet, nous verrons par la suite que Docker va automatiquement choisir un nom de container reprenant le nom du service et y ajouter un numéro pour le différencier des autres instances du service.
+
+### Load-balancing : Plusieurs nodes
+
+TODO: A enlever ?
 De plus, nous avons ajouté un endpoint `/health` sur l'API permettant de vérifier rapidement si l'application tourne correctement.
 
-TODO:
-Expliquer pourquoi on a enlevé le nom des containers dans le docker-compose.yml et configuration de traefik.
-
-Pour lancer plusieurs containers d'une image :
+Pour lancer plusieurs containers de nos services, nous exécutons la commande suivante:
 
 ```bash
 docker compose up --scale adonis-activities=4 --scale apache-php=4
 ```
 
+Pour vérifier que les requêtes au serveur statique sont bien traitées par des containers différents, nous affichons désormais le hostname en haut de la page web. Pour réaliser cela, nous avons dû remplacer notre fichier `index.html` par un fichier `index.php``. Dans celui-ci, nous récupérons et affichons le hostname grâce à la fonction `gethostname()`.
+
+![Logs lors d'une requête au client](figures/client_hostname.png)
+
+
+Du côté de l'API, nous avons ajouté un middleware s'exécutant à chaque requête de notre API Node.js qui ajoute un header à la réponse `docker_hostname`. Cet header contient le nom du container.
+
+Il est possible d'observer que les requêtes du client à l'api Node.js sont bien traitées par plusieurs containers différents en vérifiant via l'onglet Network les entêtes de la réponse:
+
+![Requête traitée par un premier container](figures/api_hostname_1.png)
+
+![Requête traitée par un deuxième container](figures/api_hostname_2.png)
+
 ### Load balancing: round-robin vs sticky sessions
 
-### Management UI
+TODO: expliquer la ligne en plus dans le fichier yml
+
+### UI de Management
 
 -> Portainer
 
