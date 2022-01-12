@@ -177,9 +177,6 @@ Il est important de noter que pour implémenter le scaling des services, il **ne
 
 ### Load-balancing : Plusieurs nodes
 
-TODO: A enlever ?
-De plus, nous avons ajouté un endpoint `/health` sur l'API permettant de vérifier rapidement si l'application tourne correctement.
-
 Pour lancer plusieurs containers de nos services, nous exécutons la commande suivante:
 
 ```bash
@@ -191,9 +188,21 @@ Pour vérifier que les requêtes au serveur statique sont bien traitées par des
 ![Logs lors d'une requête au client](figures/client_hostname.png)
 
 
-Du côté de l'API, nous avons ajouté un middleware s'exécutant à chaque requête de notre API Node.js qui ajoute un header à la réponse `docker_hostname`. Cet header contient le nom du container.
+Du côté de l'API, nous avons ajouté un middleware s'exécutant à chaque requête de notre API Node.js qui ajoute un header `docker_hostname` à la réponse. Cet header contient l'hostname du container.
 
-Il est possible d'observer que les requêtes du client à l'api Node.js sont bien traitées par plusieurs containers différents en vérifiant via l'onglet Network les entêtes de la réponse:
+```js
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import os from 'os'
+
+export default class Hostname {
+  public async handle({ response }: HttpContextContract, next: () => Promise<void>) {
+    response.safeHeader('docker_hostname', os.hostname())
+    await next()
+  }
+}
+```
+
+Il est maintenant possible d'observer que les requêtes du client à l'api Node.js sont bien traitées par plusieurs containers différents en vérifiant via l'onglet Network les entêtes de la réponse:
 
 ![Requête traitée par un premier container](figures/api_hostname_1.png)
 
