@@ -35,7 +35,7 @@
     <div class="container d-flex justify-content-between align-items-center">
 
       <div id="logo">
-        <h1><a href="index.html">HEIG</a></h1>
+        <h1><a href="/">HEIG</a></h1>
       </div>
 
       <nav id="navbar" class="navbar">
@@ -54,6 +54,7 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
+      <p style="color: white;">Hostname: <?= gethostname() ?></p>
       <h1>Try this activity if you are bored:</h1>
       <div class="activity-content">
         <h2 class="title" style="margin: 0;"></h2>
