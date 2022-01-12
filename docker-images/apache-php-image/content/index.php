@@ -53,14 +53,16 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
-    <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
+    <div class="hero-container">
       <p style="color: white;">Hostname: <?= gethostname() ?></p>
-      <h1>Try this activity if you are bored:</h1>
-      <div class="activity-content">
-        <h2 class="title" style="margin: 0;"></h2>
-        <a href="" class="link btn-get-started" target="_blank">Check it out</a>
+      <div  data-aos="zoom-in" data-aos-delay="100">
+        <h1>Try this activity if you are bored:</h1>
+        <div class="activity-content">
+            <h2 class="title" style="margin: 0;"></h2>
+            <a href="" class="link btn-get-started" target="_blank">Check it out</a>
+        </div>
+        <a href="#about" class="btn-get-started" style="margin-top: 100px;">Get Started</a>
       </div>
-      <a href="#about" class="btn-get-started" style="margin-top: 100px;">Get Started</a>
     </div>
   </section><!-- End Hero Section -->
 
