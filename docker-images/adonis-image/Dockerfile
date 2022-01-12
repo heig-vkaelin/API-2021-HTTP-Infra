@@ -11,7 +11,7 @@ RUN npm ci
 
 COPY src/ /home/node/app/
 
-RUN node ace build --production && cd build && npm ci --production
+RUN node ace build --production && cd build
 
 COPY src/.env build/
 
