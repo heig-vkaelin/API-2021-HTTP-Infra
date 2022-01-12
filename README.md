@@ -223,9 +223,9 @@ apache-php:
 
 Nous observons bien sur la vidéo que lorsque le cookie de session est présent, la requête est toujours traitée par le même container. Une fois ce cookie supprimé, Traefik nous assigne un container parmi ceux disponibles.
 
-![round robin](figures/round robin.gif)
+![round_robin](figures/round_robin.gif)
 
-Pour les requêtes à l'API Node.js, on voit bien qu'elles sont toujours réparties entre toutes les différentes instances des containers, malgré l'activation des sessions pour le site statique.
+Pour les requêtes à l'API Node.js, nous notons bien qu'elles sont toujours réparties entre toutes les différentes instances des containers, malgré l'activation des sessions pour le site statique.
 
 ### UI de Management
 
