@@ -123,7 +123,7 @@ Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utilis
 
 ## Etapes optionnelles:
 
-Pour cette partie, nous utilisons Traefik comme Reverse-Proxy afin de profiter de ses fonctionnalités avancées de routage sur les containers. Nous avons créé un dossier `traefik` dans lequel se trouve le `docker-compose.yml` qui implémente toutes les fonctionnalités demandées.
+Pour cette dernière partie, nous utilisons Traefik comme Reverse-Proxy afin de profiter de ses fonctionnalités avancées de routage sur les containers. Nous avons créé un dossier `traefik` dans lequel se trouve le `docker-compose.yml` qui implémente toutes les fonctionnalités demandées.
 
 Le fichier docker-compose comporte 4 services : le Reverse-Proxy Traefik, Portainer qui sert d'interface de gestion des containers et les deux services développés aux étapes précédentes qui représentent le site web.
 
@@ -210,31 +210,28 @@ Il est maintenant possible d'observer que les requêtes du client à l'api Node.
 
 ### Load balancing: round-robin vs sticky sessions
 
-TODO: expliquer la ligne en plus dans le fichier yml
+TODO: expliquer les 2 lignes en plus dans le fichier yml
+```yml
+apache-php:
+    labels:
+      - ...
+      - traefik.http.services.apache-php.loadbalancer.sticky.cookie=true
+      - traefik.http.services.apache-php.loadbalancer.sticky.cookie.name=sticky-cookie
+```
 
 ![sticky sessions](figures/sticky_sessions.gif)
 
 Nous observons bien sur la vidéo que lorsque le cookie de session est présent, la requête est toujours traitée par le même container. Une fois ce cookie supprimé, Traefik nous assigne un container parmi ceux disponibles.
 
-TODO: montrer que ça ne change pas pour les calls à l'API
+![round robin](figures/round robin.gif)
+
+Pour les requêtes à l'API Node.js, on voit bien qu'elles sont toujours réparties entre toutes les différentes instances des containers, malgré l'activation des sessions pour le site statique.
 
 ### UI de Management
 
--> Portainer
+TODO: -> Portainer
 
 
+### Management dynamique de cluster
 
-
-TODO:
-
-Adonis:
-
-- *OK* Afficher le host dans le json de réponse ou dans le header
-- *OK* Gérer l'endpoint /activities (différences entre Apache et Traefik) et ajouter un catch all
-- *OK* Fournir des health checks
-
-Traefik:
-
-- *OK* Activer les sticky sessions & round-robin
-- Setup de Portainer
-- Tester tout le setup final
+TODO: je sais pas trop
