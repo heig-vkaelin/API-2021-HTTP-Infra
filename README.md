@@ -123,6 +123,8 @@ Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utilis
 
 ## Etapes optionnelles:
 
+### Load balancing: multiple server nodes
+
 Nous avons ajouté un middleware s'exécutant à chaque requête de notre API Node.js qui ajoute un header à la réponse `docker_hostname`. Cet header contient le nom du container afin de vérifier que les réponses viennent de containers différents.
 
 De plus, nous avons ajouté un endpoint `/health` sur l'API permettant de vérifier rapidement si l'application tourne correctement.
@@ -135,6 +137,15 @@ Pour lancer plusieurs containers d'une image :
 ```bash
 docker compose up --scale adonis-activities=4 --scale apache-php=4
 ```
+
+### Load balancing: round-robin vs sticky sessions
+
+### Management UI
+
+-> Portainer
+
+
+
 
 TODO:
 
