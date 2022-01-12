@@ -140,13 +140,12 @@ TODO:
 
 Adonis:
 
-- Afficher le host dans le json de réponse ou dans le header
-- Gérer l'endpoint /activities (différences entre Apache et Traefik) et ajouter un catch all
-- Fournir des health checks
+- *OK* Afficher le host dans le json de réponse ou dans le header
+- *OK* Gérer l'endpoint /activities (différences entre Apache et Traefik) et ajouter un catch all
+- *OK* Fournir des health checks
 
 Traefik:
 
-- Activer les sticky sessions
-- Setup un autre projet (dans un autre docker-compose) qu'on ajoute au network et à Traefik
+- *OK* Activer les sticky sessions & round-robin
 - Setup de Portainer
 - Tester tout le setup final
