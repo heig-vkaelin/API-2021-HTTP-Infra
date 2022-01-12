@@ -186,7 +186,7 @@ Pour lancer plusieurs containers de nos services, nous exécutons la commande su
 docker compose up --scale adonis-activities=4 --scale apache-php=4
 ```
 
-Pour vérifier que les requêtes au serveur statique sont bien traitées par des containers différents, nous affichons désormais le hostname en haut de la page web. Pour réaliser cela, nous avons dû remplacer notre fichier `index.html` par un fichier `index.php``. Dans celui-ci, nous récupérons et affichons le hostname grâce à la fonction `gethostname()`.
+Pour vérifier que les requêtes au serveur statique sont bien traitées par des containers différents, nous affichons désormais le hostname en haut de la page web. Pour réaliser cela, nous avons dû remplacer notre fichier `index.html` par un fichier `index.php`. Dans celui-ci, nous récupérons et affichons le hostname grâce à la fonction `gethostname()`.
 
 ![Logs lors d'une requête au client](figures/client_hostname.png)
 
