@@ -239,7 +239,7 @@ Nous observons bien sur la vidéo que lorsque le cookie de session est présent,
 
 Pour les requêtes à l'API Node.js, nous notons bien qu'elles sont toujours réparties entre toutes les différentes instances des containers, malgré l'activation des sessions pour le site statique.
 
-### Management dynamique de cluster
+### Gestion dynamique de cluster
 
 Pour cette étape, nous avons utilisé le **Swarm mode** proposé par Docker pour effectuer du scaling dynamique et relativement simple de nos services.
 Pour cela, nous avons dû initiliaser un "swarm" pour que le deamon docker de notre machine devienne un manager de nodes.
@@ -295,7 +295,7 @@ Pour arrêter les services et supprimer la stack:
 docker stack rm api
 ```
 
-### UI de Management
+### UI de Gestion
 
 Nous avons ajouté la configuration de Portainer au docker-compose-swarm créé au point précédent. Il aurait également été possible de réaliser cette étape sans le mode swarm de Docker mais nous aurions eu beaucoup moins d'options disponibles sur Portainer. Grâce au mode swarm, il va nous être possible de modifier directement le nombre d'instances de chaque service de la stack directement via l'interface.
 
