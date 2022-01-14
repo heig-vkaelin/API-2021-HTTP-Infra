@@ -111,7 +111,7 @@ docker compose down
 
 Nous avons modifié le site web utilisé dans la première étape en lui rajoutant un fichier `custom.js` qui contient la logique pour fetch périodiquement les données fournies par notre API d'activités.
 
-Plutôt que d'utiliser la version `Ajax` de jQuery, nous privilégeons la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript. Cela nous permet d'éviter de télécharger une librairie supplémentaire pour un simple call HTTP.
+Plutôt que d'utiliser la version `Ajax` de jQuery, nous privilégions la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript. Cela nous permet d'éviter de télécharger une librairie supplémentaire pour un simple call HTTP.
 
 Côté infrastructure, nous reprenons le fichier `docker-compose.yml` de l'étape précédente.
 
