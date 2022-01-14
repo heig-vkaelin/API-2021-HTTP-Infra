@@ -13,7 +13,7 @@ Nous construisons l'image Docker avec la commande suivante:
 docker build -t api/apache-php-image .
 ```
 
-Puis, nous pouvons lancer un container et y accèder via [localhost](http://localhost:9090) avec :
+Puis, nous pouvons lancer un container et y accéder via [localhost](http://localhost:9090) avec :
 
 ```bash
 docker run -p 9090:80 api/apache-php-image
@@ -31,6 +31,12 @@ Nous profitons des **multi-stage builds** proposés par Docker pour créer notre
 Le build stage transpile les fichiers Typescript en Javascript valide pour le runtime de Node.js et prépare le dossier de production que le run stage va utiliser.
 
 Le run stage, par soucis de sécurité, utilise l'utilisateur non-root `node` mis à disposition par l'image de base.
+
+Avant de construire l'image Docker, il est nécessaire de configurer les variables d'environnement de l'application Node.js. Cela se fait en copiant le fichier `.env.example` du dossier `src` en un fichier `.env`:
+
+```bash
+cp .env.example .env
+```
 
 Nous construisons l'image Docker avec la commande suivante:
 
@@ -80,8 +86,11 @@ Tout d'abord, nous avons accédé directement à l'ip du service Docker dans not
 
 Pour tester la configuration et lancer les containers, il est nécessaire d'exécuter la commande suivante dans le dossier `apache-reverse-proxy-image`:
 
-| :warning: Les deux images des étapes précédentes doivent déjà être build! |
-| ------------------------------------------------------------------------- |
+Il est possible de build les images via la commande si cela n'a pas été fait au préalable:
+
+```bash
+docker compose build
+```
 
 ```bash
 docker compose up -d
@@ -102,13 +111,14 @@ docker compose down
 
 Nous avons modifié le site web utilisé dans la première étape en lui rajoutant un fichier `custom.js` qui contient la logique pour fetch périodiquement les données fournies par notre API d'activités.
 
-Plutôt que d'utiliser `Ajax`, nous privilégeons la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript.
+Plutôt que d'utiliser la version `Ajax` de jQuery, nous privilégions la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript. Cela nous permet d'éviter de télécharger une librairie supplémentaire pour un simple call HTTP.
 
 Côté infrastructure, nous reprenons le fichier `docker-compose.yml` de l'étape précédente.
 
 Pour vérifier le bon fonctionnement des appels effectués par le site statique, nous n'avons qu'à nous rendre sur la [page d'accueil](http://localhost) et observer les changements périodiques.
 
-// TODO GIF de la page qui est refresh chaque 5 secondes.
+GIF du call ajax se faisant toutes les 3 secondes pour afficher une nouvelle activité:
+![ajax](figures/ajax.gif)
 
 ## Etape 5: Reverse proxy dynamique
 
