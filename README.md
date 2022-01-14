@@ -122,4 +122,4 @@ GIF du call ajax se faisant toutes les 3 secondes pour afficher une nouvelle act
 
 ## Etape 5: Reverse proxy dynamique
 
-Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
+Nous n'avons pas à faire grand-chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
