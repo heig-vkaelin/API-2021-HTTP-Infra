@@ -242,7 +242,7 @@ Pour les requêtes à l'API Node.js, nous notons bien qu'elles sont toujours ré
 ### Management dynamique de cluster
 
 Pour cette étape, nous avons utilisé le **Swarm mode** proposé par Docker pour effectuer du scaling dynamique et relativement simple de nos services.
-Pour cela, nous avons dû initliaser un "swarm" pour que le deamon docker de notre machine devienne un manager de nodes.
+Pour cela, nous avons dû initiliaser un "swarm" pour que le deamon docker de notre machine devienne un manager de nodes.
 
 L'initialisation se fait avec la commande:
 ```bash
@@ -285,7 +285,7 @@ docker service scale api_apache-php=5 api_adonis-activities=5
 
 ![scale des services une fois lancés](figures/stack_scaled.png)
 
-Pour arrête les services et supprimer la stack:
+Pour arrêter les services et supprimer la stack:
 ```bash
 docker stack rm api
 ```
