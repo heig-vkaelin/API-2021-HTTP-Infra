@@ -183,9 +183,9 @@ Pour lancer plusieurs containers de nos services, nous exécutons la commande su
 docker compose up -d --no-recreate --scale adonis-activities=4 --scale apache-php=4
 ```
 
-L'attribut ``no-recreate`` permet de ne pas supprimer les instances des containers déjà présents lors de l'exécution de la commande. Ce qui permet d'adapter la configuration même lorsque l'infrastructure tourne déjà. En cliquant sur l'un des deux services, il est possible de voir l'adresse ip attribuée à chaque instance.
+L'attribut ``no-recreate`` permet de ne pas supprimer les instances des containers déjà présents lors de l'exécution de la commande. Ce qui permet d'adapter la configuration même lorsque l'infrastructure tourne déjà.
 
-Il est maintenant possible d'observer sur [l'interface de Traefik](http://dashboard.localhost/dashboard/#/http/services) que les deux services ont bien plusieurs instances (4 dans notre cas).
+Il est maintenant possible d'observer sur [l'interface de Traefik](http://dashboard.localhost/dashboard/#/http/services) que les deux services ont bien plusieurs instances (4 dans notre cas). En cliquant sur l'un des deux services, il est possible de voir l'adresse ip attribuée à chaque instance.
 
 ![scaling visible sur traefik](figures/traefik_scaling.png)
 
