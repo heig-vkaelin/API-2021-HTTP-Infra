@@ -13,7 +13,7 @@ Nous construisons l'image Docker avec la commande suivante:
 docker build -t api/apache-php-image .
 ```
 
-Puis, nous pouvons lancer un container et y accèder via [localhost](http://localhost:9090) avec :
+Puis, nous pouvons lancer un container et y accéder via [localhost](http://localhost:9090) avec :
 
 ```bash
 docker run -p 9090:80 api/apache-php-image
@@ -108,7 +108,7 @@ docker compose down
 
 Nous avons modifié le site web utilisé dans la première étape en lui rajoutant un fichier `custom.js` qui contient la logique pour fetch périodiquement les données fournies par notre API d'activités.
 
-Plutôt que d'utiliser la version `Ajax` de jQuery, nous privilégeons la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript. Cela nous permet d'éviter de télécharger une librairie supplémentaire pour un simple call HTTP.
+Plutôt que d'utiliser la version `Ajax` de jQuery, nous privilégions la [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), plus moderne et disponible nativement sur Javascript. Cela nous permet d'éviter de télécharger une librairie supplémentaire pour un simple call HTTP.
 
 Côté infrastructure, nous reprenons le fichier `docker-compose.yml` de l'étape précédente.
 
@@ -119,7 +119,7 @@ GIF du call ajax se faisant toutes les 3 secondes pour afficher une nouvelle act
 
 ## Etape 5: Reverse proxy dynamique
 
-Nous n'avons pas à faire grand chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
+Nous n'avons pas à faire grand-chose pour cette partie car notre choix d'utiliser `docker compose` à l'étape 3 nous a déjà permis de résoudre le problème des adresses IP statiques liées aux containers. La partie 3 explique assez bien comment le mapping dynamique est géré.
 
 ## Etapes optionnelles:
 
@@ -127,7 +127,7 @@ Pour cette dernière partie, nous utilisons Traefik comme Reverse-Proxy afin de 
 
 Le fichier docker-compose comporte 4 services : le Reverse-Proxy Traefik, Portainer qui sert d'interface de gestion des containers et les deux services développés aux étapes précédentes qui représentent le site web.
 
-La configuation de Traefik est la suivante:
+La configuration de Traefik est la suivante:
 
 ```yml
  traefik:
@@ -210,7 +210,9 @@ Il est maintenant possible d'observer que les requêtes du client à l'api Node.
 
 ### Load balancing: round-robin vs sticky sessions
 
-TODO: expliquer les 2 lignes en plus dans le fichier yml
+Par défaut, Traefik répartit les charges en mode round-robin. Nous n'avons donc pas touché la configuration pour ce point.
+
+En revanche, nous avons modifié nos instances de serveurs web statiques pour un routage en mode stick session. Traefik nous facilite grandement la tâche pour cette fonctionnalité. En effet, Il faut simplement rajouter les deux labels suivants au service:
 ```yml
 apache-php:
     labels:
@@ -218,6 +220,10 @@ apache-php:
       - traefik.http.services.apache-php.loadbalancer.sticky.cookie=true
       - traefik.http.services.apache-php.loadbalancer.sticky.cookie.name=sticky-cookie
 ```
+
+Derrière les décors, Traefik crée un header `Set-Cookie` lors de la réponse initiale à un client. Cela génère un cookie qui lie le serveur ayant répondu en premier au navigateur. Ensuite, pour les prochaines requêtes, Traefik redirige tout le trafic sur ledit serveur. 
+
+La deuxième ligne sert principalement à un avoir un nom plus reconnaissable à la place du hash par défaut.
 
 ![sticky sessions](figures/sticky_sessions.gif)
 
@@ -227,11 +233,60 @@ Nous observons bien sur la vidéo que lorsque le cookie de session est présent,
 
 Pour les requêtes à l'API Node.js, nous notons bien qu'elles sont toujours réparties entre toutes les différentes instances des containers, malgré l'activation des sessions pour le site statique.
 
-### UI de Management
-
-TODO: -> Portainer
-
-
 ### Management dynamique de cluster
 
-TODO: je sais pas trop
+Pour cette étape, nous avons utilisé le **Swarm mode** proposé par Docker pour effectuer du scaling dynamique et relativement simple de nos services.
+
+Pour cela, nous avons dû initliaser un "swarm" pour que le deamon docker de notre machine devienne un manager de nodes.
+
+L'initialisation se fait avec la commande:
+```bash
+docker swarm init
+```
+
+Ensuite, nous avons modifié la configuration de notre `docker-compose` pour répondre aux contraintes du mode swarm. La nouvelle configuration se trouve dans le fichier `docker-compose-swarm.yml`.
+
+Le plus gros changement par rapport à la version précédente de la configuration se trouve dans l'ajout du champ `deploy` dans lequel on neste les champs `labels` de tous les services.
+
+Le service `Traefik` a aussi reçu la modification suivante:
+```yml
+  traefik:
+  ...
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+```
+
+L'ajout du rôle de manager élève WIP
+
+### UI de Management
+
+Configuration du service Portainer dans le docker-compose:
+
+```yml
+portainer:
+    image: portainer/portainer-ce:2.11.0-alpine
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portainer.rule=Host(`portainer.localhost`)
+      - traefik.http.routers.portainer.entrypoints=web
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+    depends_on:
+      - traefik
+    networks:
+      - api_net
+```
+
+TODO: parler de docker swarm / stack / etc
+
+Nous avons ajouté la configuration de Portainer dans le même fichier docker-compose que le reste de l'infrastructure dans un soucis de facilité. Le problème principal de ce choix se trouve être le management du container Traefik. En effet, comme Portainer est géré et exposé grâce à Traefik, lorsque l'on arrête le container Traefik via l'interface Portainer, il devient impossible d'accéder à ladite interface.
+
+Cependant, il est tout à fait possible de gérer (arrêter / démarrer) les instances des containers gérant le site statique et l'API Node.js, ce qui était le but principal de cette partie.
+
+Autre point positif de Portainer, il est possible de dupliquer un container (par exemple une instance du site web statique) afin de gérer la scalabilité même une fois l'infrastructure déployée. Nous n'avons malheureusement pas réussi à faire fonctionner cette fonctionnalité sur les containers de notre API Node.js. En effet, le container dupliqué crash instantanément et les logs sont vides et ne permettent donc pas de trouver facilement le problème.
