@@ -2,6 +2,19 @@
 
 Auteurs: Lazar Pavicevic, Valentin Kaelin
 
+## Table des matières
+
+- [Etape 1: HTTP serveur statique avec apache httpd](#etape-1-http-serveur-statique-avec-apache-httpd)
+- [Etape 2: Serveur HTTP dynamique avec Node.js](#etape-2-serveur-http-dynamique-avec-nodejs)
+- [Etape 3: Reverse proxy avec Apache (configuration statique)](#etape-3-reverse-proxy-avec-apache-configuration-statique)
+- [Etape 4: Requêtes AJAX avec fetch](#etape-4-requêtes-ajax-avec-fetch)
+- [Etape 5: Reverse proxy dynamique](#etape-5-reverse-proxy-dynamique)
+- [Etapes optionnelles:](#etapes-optionnelles)
+  - [Load-balancing : Plusieurs nodes](#load-balancing--plusieurs-nodes)
+  - [Load balancing: round-robin vs sticky sessions](#load-balancing-round-robin-vs-sticky-sessions)
+  - [Gestion dynamique de cluster](#gestion-dynamique-de-cluster)
+  - [UI de Gestion](#ui-de-gestion)
+
 ## Etape 1: HTTP serveur statique avec apache httpd
 
 Nous utilisons l'image `php:8-apache-bullseye` afin d'avoir, comme dans la vidéo de présentation, une configuration minimale déjà présente.
@@ -86,8 +99,11 @@ Tout d'abord, nous avons accédé directement à l'ip du service Docker dans not
 
 Pour tester la configuration et lancer les containers, il est nécessaire d'exécuter la commande suivante dans le dossier `apache-reverse-proxy-image`:
 
-| :warning: Les deux images des étapes précédentes doivent déjà être build! |
-| ------------------------------------------------------------------------- |
+Il est possible de build les images via la commande si cela n'a pas été fait au préalable:
+
+```bash
+docker compose build
+```
 
 ```bash
 docker compose up -d
