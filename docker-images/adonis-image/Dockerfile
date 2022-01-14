@@ -11,15 +11,15 @@ RUN npm ci
 
 COPY src/ /home/node/app/
 
-RUN node ace build --production && cd build && npm ci --production
+RUN node ace build --production && cd build
 
 COPY src/.env build/
 
 #Run stage
 FROM node:16-alpine as app
 
-RUN apt-get update && \
-  apt-get install -y vim
+RUN apk update && \
+  apk add vim
 
 USER node
 

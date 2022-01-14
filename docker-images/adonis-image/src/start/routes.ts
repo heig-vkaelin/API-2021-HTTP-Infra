@@ -18,6 +18,10 @@
 |
 */
 
+import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'ActivitiesController.index')
+Route.get('/activity', 'ActivitiesController.show')
+Route.get('/activities', 'ActivitiesController.index')
+Route.get('/health', async () => ({ report: await HealthCheck.getReport() }))
+Route.get('*', async ({ response }) => response.notFound({ error: 'Not Found' }))
