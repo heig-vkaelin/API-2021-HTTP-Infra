@@ -180,8 +180,14 @@ Il est important de noter que pour implémenter le scaling des services, il **ne
 Pour lancer plusieurs containers de nos services, nous exécutons la commande suivante:
 
 ```bash
-docker compose up --scale adonis-activities=4 --scale apache-php=4
+docker compose up -d --no-recreate --scale adonis-activities=4 --scale apache-php=4
 ```
+
+L'attribut ``no-recreate`` permet de ne pas supprimer les instances des containers déjà présents lors de l'exécution de la commande. Ce qui permet d'adapter la configuration même lorsque l'infrastructure tourne déjà. En cliquant sur l'un des deux services, il est possible de voir l'adresse ip attribuée à chaque instance.
+
+Il est maintenant possible d'observer sur [l'interface de Traefik](http://dashboard.localhost/dashboard/#/http/services) que les deux services ont bien plusieurs instances (4 dans notre cas).
+
+![scaling visible sur traefik](figures/traefik_scaling.png)
 
 Pour vérifier que les requêtes au serveur statique sont bien traitées par des containers différents, nous affichons désormais le hostname en haut de la page web. Pour réaliser cela, nous avons dû remplacer notre fichier `index.html` par un fichier `index.php`. Dans celui-ci, nous récupérons et affichons le hostname grâce à la fonction `gethostname()`.
 
@@ -236,7 +242,6 @@ Pour les requêtes à l'API Node.js, nous notons bien qu'elles sont toujours ré
 ### Management dynamique de cluster
 
 Pour cette étape, nous avons utilisé le **Swarm mode** proposé par Docker pour effectuer du scaling dynamique et relativement simple de nos services.
-
 Pour cela, nous avons dû initliaser un "swarm" pour que le deamon docker de notre machine devienne un manager de nodes.
 
 L'initialisation se fait avec la commande:
@@ -246,7 +251,7 @@ docker swarm init
 
 Ensuite, nous avons modifié la configuration de notre `docker-compose` pour répondre aux contraintes du mode swarm. La nouvelle configuration se trouve dans le fichier `docker-compose-swarm.yml`.
 
-Le plus gros changement par rapport à la version précédente de la configuration se trouve dans l'ajout du champ `deploy` dans lequel on neste les champs `labels` de tous les services.
+Le plus gros changement par rapport à la version précédente de la configuration se trouve dans l'ajout du champ `deploy` dans lequel on imbrique les champs `labels` de tous les services.
 
 Le service `Traefik` a aussi reçu la modification suivante:
 ```yml
@@ -257,36 +262,70 @@ Le service `Traefik` a aussi reçu la modification suivante:
         constraints:
           - node.role == manager
 ```
+Ainsi, le service tourne forcément sur le node du manager et a accès aux API de Docker et de Swarm.
 
-L'ajout du rôle de manager élève WIP
+Pour lancer la stack, il suffit d'exécuter la commande suivante dans le dossier ``traefik``:
+
+```bash
+docker stack deploy --compose-file .\docker-compose-swarm.yml api
+```
+
+On peut observer les services activés ainsi que leur nombre d'instances avec cette commande:
+
+```bash
+docker stack services api
+```
+
+![docker stack services](figures/stack_running.png)
+
+On peut scale nos services de manière similaire à celle du point précédent:
+```bash
+docker service scale api_apache-php=5 api_adonis-activities=5
+```
+
+![scale des services une fois lancés](figures/stack_scaled.png)
+
+Pour arrête les services et supprimer la stack:
+```bash
+docker stack rm api
+```
 
 ### UI de Management
 
-Configuration du service Portainer dans le docker-compose:
+Nous avons ajouté la configuration de Portainer au docker-compose-swarm créé au point précédent. Il aurait également été possible de réaliser cette étape sans le mode swarm de Docker mais nous aurions eu beaucoup moins d'options disponibles sur Portainer. Grâce au mode swarm, il va nous être possible de modifier directement le nombre d'instances de chaque service de la stack directement via l'interface.
+
+La configuration de Portainer:
 
 ```yml
 portainer:
     image: portainer/portainer-ce:2.11.0-alpine
     command: -H unix:///var/run/docker.sock
-    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.portainer.rule=Host(`portainer.localhost`)
-      - traefik.http.routers.portainer.entrypoints=web
-      - traefik.http.services.portainer.loadbalancer.server.port=9000
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.portainer.rule=Host(`portainer.localhost`)
+        - traefik.http.routers.portainer.entrypoints=web
+        - traefik.http.services.portainer.loadbalancer.server.port=9000
     depends_on:
       - traefik
     networks:
       - api_net
 ```
 
-TODO: parler de docker swarm / stack / etc
+Comme pour Traefik, ce service tourne sur le node manager et a accès aux API de Docker. 
 
-Nous avons ajouté la configuration de Portainer dans le même fichier docker-compose que le reste de l'infrastructure dans un soucis de facilité. Le problème principal de ce choix se trouve être le management du container Traefik. En effet, comme Portainer est géré et exposé grâce à Traefik, lorsque l'on arrête le container Traefik via l'interface Portainer, il devient impossible d'accéder à ladite interface.
+Les containers peuvent maintenant être gérés via [l'interface web](http://portainer.localhost) de Portainer.
 
-Cependant, il est tout à fait possible de gérer (arrêter / démarrer) les instances des containers gérant le site statique et l'API Node.js, ce qui était le but principal de cette partie.
+![not scaled](figures/portainer_not_scaled.png)
 
-Autre point positif de Portainer, il est possible de dupliquer un container (par exemple une instance du site web statique) afin de gérer la scalabilité même une fois l'infrastructure déployée. Nous n'avons malheureusement pas réussi à faire fonctionner cette fonctionnalité sur les containers de notre API Node.js. En effet, le container dupliqué crash instantanément et les logs sont vides et ne permettent donc pas de trouver facilement le problème.
+Au démarrage de notre stack, nous observons que nous avons uniquement une instance de chaque service. Il est possible d'ajouter des instances des containers souhaités via le bouton "scale".
+
+![scaled](figures/portainer_scaled.png)
+
+Par la suite, les instances ajoutées des différents services sont bien lancées.

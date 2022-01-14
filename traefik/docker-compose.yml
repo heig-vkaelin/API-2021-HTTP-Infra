@@ -21,22 +21,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - api_net
-  portainer:
-    image: portainer/portainer-ce:2.11.0-alpine
-    command: -H unix:///var/run/docker.sock
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.portainer.rule=Host(`portainer.localhost`)
-      - traefik.http.routers.portainer.entrypoints=web
-      - traefik.http.services.portainer.loadbalancer.server.port=9000
-    depends_on:
-      - traefik
-    networks:
-      - api_net
   adonis-activities:
     image: api/adonis-image
     labels:
@@ -45,9 +29,6 @@ services:
       - traefik.http.routers.adonis-activities.middlewares=adonis-activities-stripprefix
       - traefik.http.middlewares.adonis-activities-stripprefix.stripprefix.prefixes=/api
       - traefik.http.routers.adonis-activities.entrypoints=web
-      - traefik.http.services.adonis-activities.loadbalancer.healthcheck.path=/health
-      - traefik.http.services.adonis-activities.loadbalancer.healthcheck.interval=10s
-      - traefik.http.services.adonis-activities.loadbalancer.healthcheck.timeout=10s
     depends_on:
       - traefik
     networks:
@@ -65,7 +46,5 @@ services:
       - adonis-activities
     networks:
       - api_net
-volumes:
-  portainer_data:
 networks:
   api_net:
