@@ -4,7 +4,7 @@ Auteurs: Lazar Pavicevic, Valentin Kaelin
 
 ## Table des matières
 
-- [Etape 1: HTTP serveur statique avec apache httpd](#etape-1-http-serveur-statique-avec-apache-httpd)
+- [Etape 1: Serveur HTTP statique avec apache httpd](#etape-1-serveur-http-statique-avec-apache-httpd)
 - [Etape 2: Serveur HTTP dynamique avec Node.js](#etape-2-serveur-http-dynamique-avec-nodejs)
 - [Etape 3: Reverse proxy avec Apache (configuration statique)](#etape-3-reverse-proxy-avec-apache-configuration-statique)
 - [Etape 4: Requêtes AJAX avec fetch](#etape-4-requêtes-ajax-avec-fetch)
@@ -15,7 +15,7 @@ Auteurs: Lazar Pavicevic, Valentin Kaelin
   - [Gestion dynamique de cluster](#gestion-dynamique-de-cluster)
   - [UI de Gestion](#ui-de-gestion)
 
-## Etape 1: HTTP serveur statique avec apache httpd
+## Etape 1: Serveur HTTP statique avec apache httpd
 
 Nous utilisons l'image `php:8-apache-bullseye` afin d'avoir, comme dans la vidéo de présentation, une configuration minimale déjà présente.
 Les fichiers de notre site statique doivent donc se trouver dans le chemin suivant à l'intérieur du conteneur: `/var/www/html/`.
